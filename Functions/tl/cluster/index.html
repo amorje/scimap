@@ -1,0 +1,2417 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Single-Cell Image Analysis Package">
+      
+      
+        <meta name="author" content="Ajit Johnson Nirmal">
+      
+      
+      
+        <link rel="prev" href="../phenotype_cells/">
+      
+      
+        <link rel="next" href="../umap/">
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+    
+    
+      
+        <title>cluster - scimap</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-22X9HCL4YP"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-22X9HCL4YP",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-22X9HCL4YP",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#scimap.tools._cluster" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="scimap" class="md-header__button md-logo" aria-label="scimap" data-md-component="logo">
+      
+  <img src="../../../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            scimap
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              cluster
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ajitjohnson/scimap" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../Getting%20Started/" class="md-tabs__link">
+      Getting Started
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../Tools%20Shortcut/" class="md-tabs__link">
+      Tools Shortcut
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pp/mcmicro_to_scimap/" class="md-tabs__link md-tabs__link--active">
+        SCIMAP Functions
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../tutorials/1-scimap-tutorial-getting-started/" class="md-tabs__link">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="scimap" class="md-nav__button md-logo" aria-label="scimap" data-md-component="logo">
+      
+  <img src="../../../assets/favicon.png" alt="logo">
+
+    </a>
+    scimap
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ajitjohnson/scimap" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Getting%20Started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Tools%20Shortcut/" class="md-nav__link">
+        Tools Shortcut
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          SCIMAP Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          SCIMAP Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pre Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pre Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pp/mcmicro_to_scimap/" class="md-nav__link">
+        mcmicro_to_scimap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pp/rescale/" class="md-nav__link">
+        rescale
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pp/combat/" class="md-nav__link">
+        combat
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Tools
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tools
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phenotype_cells/" class="md-nav__link">
+        phenotype_cells
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          cluster
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        cluster
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scimap.tools._cluster" class="md-nav__link">
+    scimap.tools._cluster
+  </a>
+  
+    <nav class="md-nav" aria-label="scimap.tools._cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scimap.tools._cluster--function" class="md-nav__link">
+    Function
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scimap.tools._cluster.cluster" class="md-nav__link">
+    cluster()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../umap/" class="md-nav__link">
+        umap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foldchange/" class="md-nav__link">
+        foldchange
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_distance/" class="md-nav__link">
+        spatial_distance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_interaction/" class="md-nav__link">
+        spatial_interaction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_count/" class="md-nav__link">
+        spatial_count
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_lda/" class="md-nav__link">
+        spatial_lda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_expression/" class="md-nav__link">
+        spatial_expression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_cluster/" class="md-nav__link">
+        spatial_cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_pscore/" class="md-nav__link">
+        spatial_pscore
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_aggregate/" class="md-nav__link">
+        spatial_aggregate
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial_similarity_search/" class="md-nav__link">
+        spatial_similarity_search
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+          Plotting Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Plotting Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/image_viewer/" class="md-nav__link">
+        image_viewer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/addROI_image/" class="md-nav__link">
+        addROI_image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/gate_finder/" class="md-nav__link">
+        gate_finder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/distPlot/" class="md-nav__link">
+        distPlot
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/densityPlot2D/" class="md-nav__link">
+        densityPlot2D
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cluster_plots/" class="md-nav__link">
+        cluster_plots
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/umap/" class="md-nav__link">
+        umap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/foldchange/" class="md-nav__link">
+        foldchange
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/spatial_scatterPlot/" class="md-nav__link">
+        spatial_scatterPlot
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/spatial_distance/" class="md-nav__link">
+        spatial_distance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/spatial_interaction/" class="md-nav__link">
+        spatial_interaction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/spatial_pscore/" class="md-nav__link">
+        spatial_pscore
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/stacked_barplot/" class="md-nav__link">
+        stacked_barplot
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/pie/" class="md-nav__link">
+        pie
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/voronoi/" class="md-nav__link">
+        voronoi
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+          Helper Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Helper Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/classify/" class="md-nav__link">
+        classify
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/rename/" class="md-nav__link">
+        rename
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/addROI_omero/" class="md-nav__link">
+        addROI_omero
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/dropFeatures/" class="md-nav__link">
+        dropFeatures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/animate/" class="md-nav__link">
+        animate
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hl/scimap_to_csv/" class="md-nav__link">
+        scimap_to_csv
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/1-scimap-tutorial-getting-started/" class="md-nav__link">
+        Getting Started with Scimap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/2-scimap-tutorial-cell-phenotyping/" class="md-nav__link">
+        Cell-Phenotyping using Scimap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/3-Cell_Type_calling_and_adding_ROIs/" class="md-nav__link">
+        Cell-Phenotyping and adding ROIs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/4-CellType_Proportion_Exploration/" class="md-nav__link">
+        CellType Proportion Exploration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/5-Simple_Spatial_Analysis/" class="md-nav__link">
+        Simple Spatial Analysis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/6_animate_with_scimap/" class="md-nav__link">
+        Animate with scimap
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scimap.tools._cluster" class="md-nav__link">
+    scimap.tools._cluster
+  </a>
+  
+    <nav class="md-nav" aria-label="scimap.tools._cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scimap.tools._cluster--function" class="md-nav__link">
+    Function
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scimap.tools._cluster.cluster" class="md-nav__link">
+    cluster()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>cluster</h1>
+
+<div class="doc doc-object doc-module">
+
+
+<a id="scimap.tools._cluster"></a>
+  <div class="doc doc-contents first">
+  
+      <div class="admonition abstract">
+<p class="admonition-title">Short Description</p>
+<p><code>sm.tl.cluster</code>: This function allows users to cluster the dataset. 
+The function supports four clustering algorithm (kmeans, phenograph, leiden and parc).</p>
+</div>
+<h5 id="scimap.tools._cluster--function">Function</h5>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="scimap.tools._cluster.cluster" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">cluster</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">subset_genes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sub_cluster</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sub_cluster_column</span><span class="o">=</span><span class="s1">&#39;phenotype&#39;</span><span class="p">,</span> <span class="n">sub_cluster_group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parc_small_pop</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">parc_too_big_factor</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">phenograph_clustering_metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">use_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">collapse_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>adata</code></td>
+          <td>
+          </td>
+          <td><p>AnnData Object</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+          </td>
+          <td><p>string, optional<br />
+Clustering method to be used- Implemented methods- kmeans, phenograph, leiden and parc.</p></td>
+          <td>
+                <code>&#39;kmeans&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>subset_genes</code></td>
+          <td>
+          </td>
+          <td><p>list, optional<br />
+Pass a list of genes ['CD3D', 'CD20', 'KI67'] that should be included for the purpose of clustering. 
+By default the algorithm uses all genes in the dataset.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sub_cluster</code></td>
+          <td>
+          </td>
+          <td><p>Boolian, optional<br />
+If the user has already performed clustering or phenotyping previously and would like to
+sub-cluster within a particular cluster/phenotype, this option can be used.</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sub_cluster_column</code></td>
+          <td>
+          </td>
+          <td><p>string, optional<br />
+The column name that contains the cluster/phenotype information to be sub-clustered. 
+This is only required when sub_cluster is set to True.</p></td>
+          <td>
+                <code>&#39;phenotype&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sub_cluster_group</code></td>
+          <td>
+          </td>
+          <td><p>list, optional<br />
+By default the program will sub-cluster all groups within column passed through the argument sub_cluster_column.
+If user wants to sub cluster only a subset of phenotypes/clusters this option can be used.
+Pass them as list e.g. ["tumor", "b cells"].     </p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parc_small_pop</code></td>
+          <td>
+          </td>
+          <td><p>int, optional<br />
+Smallest cluster population to be considered a community in PARC clustering.</p></td>
+          <td>
+                <code>50</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parc_too_big_factor</code></td>
+          <td>
+          </td>
+          <td><p>float, optional<br />
+If a cluster exceeds this share of the entire cell population, then the PARC will be run on 
+the large cluster. at 0.4 it does not come into play.</p></td>
+          <td>
+                <code>0.4</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>k</code></td>
+          <td>
+          </td>
+          <td><p>int, optional<br />
+Number of clusters to return when using K-Means clustering.</p></td>
+          <td>
+                <code>10</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n_pcs</code></td>
+          <td>
+          </td>
+          <td><p>int, optional<br />
+Number of PC's to be used in leiden clustering. By default it uses all PC's.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>resolution</code></td>
+          <td>
+          </td>
+          <td><p>float, optional<br />
+A parameter value controlling the coarseness of the clustering. 
+Higher values lead to more clusters.</p></td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>phenograph_clustering_metric</code></td>
+          <td>
+          </td>
+          <td><p>string, optional<br />
+Distance metric to define nearest neighbors. Note that performance will be slower for correlation and cosine. 
+Available methods- cityblock’, ‘cosine’, ‘euclidean’, ‘manhattan’, braycurtis’, ‘canberra’, ‘chebyshev’, 
+‘correlation’, ‘dice’, ‘hamming’, ‘jaccard’, ‘kulsinski’, ‘mahalanobis’, ‘minkowski’, ‘rogerstanimoto’, 
+‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</p></td>
+          <td>
+                <code>&#39;euclidean&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>nearest_neighbors</code></td>
+          <td>
+          </td>
+          <td><p>int, optional<br />
+Number of nearest neighbors to use in first step of graph construction. 
+This parameter is used both in leiden and phenograph clustering.</p></td>
+          <td>
+                <code>30</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>use_raw</code></td>
+          <td>
+          </td>
+          <td><p>bool, optional<br />
+If True, raw data will be used for clustering. 
+If False, normalized/scaled data within <code>adata.X</code> will be used.</p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>log</code></td>
+          <td>
+          </td>
+          <td><p>boolian, optional<br />
+If <code>True</code>, the log of raw data is used. Set use_raw = <code>True</code> for this to take effect. </p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>random_state</code></td>
+          <td>
+          </td>
+          <td><p>int, optional<br />
+Change the initialization of the optimization.</p></td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>collapse_labels</code></td>
+          <td>
+          </td>
+          <td><p>bool, optional<br />
+While sub clustering only a few phenotypes/clusters, this argument helps to 
+group all the other phenotypes/clusters into a single category- 
+Helps in visualisation.</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>label</code></td>
+          <td>
+          </td>
+          <td><p>string, optional<br />
+Key or optional column name for the returned data, stored in <code>adata.obs</code>. The default is adata.obs [method used].</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>output_dir</code></td>
+          <td>
+          </td>
+          <td><p>string, optional<br />
+Path to output directory.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>adata</code></td>          <td>
+          </td>
+          <td><p>AnnData Object
+Returns an updated <code>anndata</code> object with a new column. check- adata.obs [method used]</p></td>
+        </tr>
+    </tbody>
+  </table>
+      <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="n">adata</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">cluster</span> <span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> 
+    <span class="n">sub_cluster_column</span><span class="o">=</span><span class="s1">&#39;phenotype&#39;</span><span class="p">,</span> <span class="n">use_raw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+
+      <details class="quote">
+        <summary>Source code in <code>scimap/tools/_cluster.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cluster</span> <span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">subset_genes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">sub_cluster</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sub_cluster_column</span><span class="o">=</span><span class="s1">&#39;phenotype&#39;</span><span class="p">,</span> <span class="n">sub_cluster_group</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">parc_small_pop</span><span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">parc_too_big_factor</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
+             <span class="n">k</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+             <span class="n">phenograph_clustering_metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span> <span class="mi">30</span><span class="p">,</span> 
+             <span class="n">use_raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">collapse_labels</span><span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">Parameters:</span>
+
+<span class="sd">    adata : AnnData Object</span>
+
+<span class="sd">    method : string, optional  </span>
+<span class="sd">        Clustering method to be used- Implemented methods- kmeans, phenograph, leiden and parc.</span>
+
+<span class="sd">    subset_genes : list, optional  </span>
+<span class="sd">        Pass a list of genes [&#39;CD3D&#39;, &#39;CD20&#39;, &#39;KI67&#39;] that should be included for the purpose of clustering. </span>
+<span class="sd">        By default the algorithm uses all genes in the dataset.</span>
+
+<span class="sd">    sub_cluster : Boolian, optional  </span>
+<span class="sd">        If the user has already performed clustering or phenotyping previously and would like to</span>
+<span class="sd">        sub-cluster within a particular cluster/phenotype, this option can be used.</span>
+
+<span class="sd">    sub_cluster_column : string, optional  </span>
+<span class="sd">        The column name that contains the cluster/phenotype information to be sub-clustered. </span>
+<span class="sd">        This is only required when sub_cluster is set to True.</span>
+
+<span class="sd">    sub_cluster_group : list, optional  </span>
+<span class="sd">        By default the program will sub-cluster all groups within column passed through the argument sub_cluster_column.</span>
+<span class="sd">        If user wants to sub cluster only a subset of phenotypes/clusters this option can be used.</span>
+<span class="sd">        Pass them as list e.g. [&quot;tumor&quot;, &quot;b cells&quot;].     </span>
+
+<span class="sd">    parc_small_pop : int, optional  </span>
+<span class="sd">        Smallest cluster population to be considered a community in PARC clustering.</span>
+
+<span class="sd">    parc_too_big_factor : float, optional  </span>
+<span class="sd">        If a cluster exceeds this share of the entire cell population, then the PARC will be run on </span>
+<span class="sd">        the large cluster. at 0.4 it does not come into play.</span>
+
+<span class="sd">    k : int, optional  </span>
+<span class="sd">        Number of clusters to return when using K-Means clustering.</span>
+
+<span class="sd">    n_pcs : int, optional  </span>
+<span class="sd">        Number of PC&#39;s to be used in leiden clustering. By default it uses all PC&#39;s.</span>
+
+<span class="sd">    resolution : float, optional  </span>
+<span class="sd">        A parameter value controlling the coarseness of the clustering. </span>
+<span class="sd">        Higher values lead to more clusters.</span>
+
+<span class="sd">    phenograph_clustering_metric : string, optional  </span>
+<span class="sd">        Distance metric to define nearest neighbors. Note that performance will be slower for correlation and cosine. </span>
+<span class="sd">        Available methods- cityblock’, ‘cosine’, ‘euclidean’, ‘manhattan’, braycurtis’, ‘canberra’, ‘chebyshev’, </span>
+<span class="sd">        ‘correlation’, ‘dice’, ‘hamming’, ‘jaccard’, ‘kulsinski’, ‘mahalanobis’, ‘minkowski’, ‘rogerstanimoto’, </span>
+<span class="sd">        ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</span>
+
+<span class="sd">    nearest_neighbors : int, optional  </span>
+<span class="sd">        Number of nearest neighbors to use in first step of graph construction. </span>
+<span class="sd">        This parameter is used both in leiden and phenograph clustering.</span>
+
+<span class="sd">    use_raw : bool, optional  </span>
+<span class="sd">        If True, raw data will be used for clustering. </span>
+<span class="sd">        If False, normalized/scaled data within `adata.X` will be used.</span>
+
+<span class="sd">    log : boolian, optional  </span>
+<span class="sd">        If `True`, the log of raw data is used. Set use_raw = `True` for this to take effect. </span>
+
+<span class="sd">    random_state : int, optional  </span>
+<span class="sd">        Change the initialization of the optimization.</span>
+
+<span class="sd">    collapse_labels : bool, optional  </span>
+<span class="sd">        While sub clustering only a few phenotypes/clusters, this argument helps to </span>
+<span class="sd">        group all the other phenotypes/clusters into a single category- </span>
+<span class="sd">        Helps in visualisation.</span>
+
+<span class="sd">    label : string, optional  </span>
+<span class="sd">        Key or optional column name for the returned data, stored in `adata.obs`. The default is adata.obs [method used].</span>
+
+<span class="sd">    output_dir : string, optional  </span>
+<span class="sd">        Path to output directory.</span>
+
+
+<span class="sd">Returns:</span>
+
+<span class="sd">    adata : AnnData Object</span>
+<span class="sd">        Returns an updated `anndata` object with a new column. check- adata.obs [method used]</span>
+
+<span class="sd">Example:</span>
+
+<span class="sd">```python</span>
+<span class="sd">    adata = sm.tl.cluster (adata, k= 10, method = &#39;kmeans&#39;, </span>
+<span class="sd">    sub_cluster_column=&#39;phenotype&#39;, use_raw = True)</span>
+<span class="sd">```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Load the andata object    </span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">imid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">adata</span> <span class="o">=</span> <span class="n">adata</span>
+
+    <span class="c1"># dynamically adapt the number of neighbours</span>
+    <span class="k">if</span> <span class="n">nearest_neighbors</span> <span class="o">&gt;</span> <span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">nearest_neighbors</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span>
+
+
+    <span class="c1"># Leiden clustering</span>
+    <span class="k">def</span> <span class="nf">leiden_clustering</span> <span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">adata</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="p">,</span> <span class="n">n_pcs</span><span class="p">,</span> <span class="n">resolution</span><span class="p">):</span>
+
+        <span class="c1"># subset the data to be clustered</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span> <span class="o">==</span> <span class="n">pheno</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span>
+
+        <span class="k">if</span> <span class="n">use_raw</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">log</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>          
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+
+        <span class="c1"># clustering</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leiden clustering &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pheno</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leiden clustering&#39;</span><span class="p">)</span>
+
+        <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">pca</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_pcs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_pcs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">data_subset</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">nearest_neighbors</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="n">n_pcs</span><span class="p">)</span>
+        <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">leiden</span><span class="p">(</span><span class="n">data_subset</span><span class="p">,</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="c1"># Rename the labels</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="nb">list</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;leiden&#39;</span><span class="p">])))</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">orig_string</span><span class="p">:</span> <span class="n">pheno</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">orig_string</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">))</span>
+
+        <span class="c1"># Make it into a dataframe</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="c1"># return labels</span>
+        <span class="k">return</span> <span class="n">cluster_labels</span>
+
+    <span class="c1"># Kmeans clustering</span>
+    <span class="k">def</span> <span class="nf">k_clustering</span> <span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">adata</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sub_cluster_column</span><span class="p">,</span> <span class="n">use_raw</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+
+        <span class="c1"># subset the data to be clustered</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span> <span class="o">==</span> <span class="n">pheno</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span>
+
+        <span class="c1"># Usage of scaled or raw data</span>
+        <span class="k">if</span> <span class="n">use_raw</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">data_subset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">raw</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span><span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_subset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">raw</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="c1"># K-means clustering</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Kmeans clustering &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pheno</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Kmeans clustering&#39;</span><span class="p">)</span>
+
+        <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+
+        <span class="c1"># Rename the labels</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">orig_string</span><span class="p">:</span> <span class="n">pheno</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">orig_string</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">))</span>
+
+        <span class="c1"># Make it into a </span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="c1"># return labels</span>
+        <span class="k">return</span> <span class="n">cluster_labels</span>
+
+    <span class="c1"># Phenograph clustering</span>
+    <span class="k">def</span> <span class="nf">phenograph_clustering</span> <span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">adata</span><span class="p">,</span> <span class="n">primary_metric</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="p">):</span>
+
+        <span class="c1"># subset the data to be clustered</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span> <span class="o">==</span> <span class="n">pheno</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span>
+
+        <span class="c1"># Usage of scaled or raw data</span>
+        <span class="k">if</span> <span class="n">use_raw</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">log</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>          
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+
+        <span class="c1"># Phenograph clustering</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Phenograph clustering &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pheno</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Phenograph clustering&#39;</span><span class="p">)</span>
+
+        <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">pca</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">sce</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">phenograph</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">],</span> <span class="n">k</span> <span class="o">=</span> <span class="n">nearest_neighbors</span><span class="p">,</span> <span class="n">primary_metric</span><span class="o">=</span><span class="n">phenograph_clustering_metric</span><span class="p">)</span>
+
+        <span class="c1"># Rename the labels</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">orig_string</span><span class="p">:</span> <span class="n">pheno</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">orig_string</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">))</span>
+
+        <span class="c1"># Make it into a dataframe</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="c1"># return labels</span>
+        <span class="k">return</span> <span class="n">cluster_labels</span>
+
+
+    <span class="c1"># PARC clustering</span>
+    <span class="c1"># https://github.com/ShobiStassen/PARC</span>
+    <span class="k">def</span> <span class="nf">parc_clustering</span> <span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">adata</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span><span class="n">resolution</span><span class="p">,</span><span class="n">parc_too_big_factor</span><span class="p">,</span><span class="n">parc_small_pop</span><span class="p">):</span>
+
+        <span class="c1"># subset the data to be clustered</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span>  <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span> <span class="o">==</span> <span class="n">pheno</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cell_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span>
+
+        <span class="c1"># Usage of scaled or raw data</span>
+        <span class="k">if</span> <span class="n">use_raw</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">log</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_subset</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">X</span>      
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[</span><span class="n">cell_subset</span><span class="p">]</span>
+
+        <span class="c1"># Phenograph clustering</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parc clustering &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pheno</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parc clustering&#39;</span><span class="p">)</span>
+
+        <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">pca</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+        <span class="n">parc1</span> <span class="o">=</span> <span class="n">parc</span><span class="o">.</span><span class="n">PARC</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">parc_small_pop</span> <span class="o">=</span> <span class="n">parc_small_pop</span><span class="p">,</span> <span class="n">resolution_parameter</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span><span class="n">parc_too_big_factor</span><span class="o">=</span><span class="n">parc_too_big_factor</span><span class="p">)</span>  
+        <span class="n">parc1</span><span class="o">.</span><span class="n">run_PARC</span><span class="p">()</span> <span class="c1"># Run Parc</span>
+
+
+        <span class="c1"># Rename the labels</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="n">parc1</span><span class="o">.</span><span class="n">labels</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pheno</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">orig_string</span><span class="p">:</span> <span class="n">pheno</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">orig_string</span><span class="p">,</span> <span class="n">cluster_labels</span><span class="p">))</span>
+
+        <span class="c1"># Make it into a dataframe</span>
+        <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="c1"># return labels</span>
+        <span class="k">return</span> <span class="n">cluster_labels</span>
+
+    <span class="c1"># Use user defined genes for clustering</span>
+    <span class="k">if</span> <span class="n">subset_genes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bdata</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[:,</span><span class="n">subset_genes</span><span class="p">]</span>
+        <span class="n">bdata</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">bdata</span><span class="p">[:,</span><span class="n">subset_genes</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bdata</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># IF sub-cluster is True</span>
+    <span class="c1"># What cells to run the clustering on?</span>
+    <span class="k">if</span> <span class="n">sub_cluster</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub_cluster_group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sub_cluster_group</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="n">sub_cluster_group</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="p">[</span><span class="n">sub_cluster_group</span><span class="p">]</span>         
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Make sure number of clusters is not greater than number of cells available</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">:</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="p">(</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;phenograph&#39;</span><span class="p">:</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="p">(</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">nearest_neighbors</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">nearest_neighbors</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;leiden&#39;</span><span class="p">:</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="p">(</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;parc&#39;</span><span class="p">:</span>
+                <span class="n">pheno</span> <span class="o">=</span> <span class="p">(</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+
+
+    <span class="c1"># Run the specified method</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub_cluster</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  
+            <span class="c1"># Apply the Kmeans function</span>
+            <span class="n">r_k_clustering</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">k_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">sub_cluster_column</span><span class="o">=</span><span class="n">sub_cluster_column</span><span class="p">,</span> <span class="n">use_raw</span><span class="o">=</span><span class="n">use_raw</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span> <span class="c1"># Create lamda function </span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r_k_clustering</span><span class="p">,</span> <span class="n">pheno</span><span class="p">))</span> <span class="c1"># Apply function </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="n">k_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">sub_cluster_column</span><span class="o">=</span><span class="n">sub_cluster_column</span><span class="p">,</span> <span class="n">use_raw</span><span class="o">=</span><span class="n">use_raw</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;phenograph&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub_cluster</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">r_phenograph_clustering</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">phenograph_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">primary_metric</span><span class="o">=</span><span class="n">phenograph_clustering_metric</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span><span class="n">nearest_neighbors</span><span class="p">)</span> <span class="c1"># Create lamda function </span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r_phenograph_clustering</span><span class="p">,</span> <span class="n">pheno</span><span class="p">))</span> <span class="c1"># Apply function      </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="n">phenograph_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">primary_metric</span><span class="o">=</span><span class="n">phenograph_clustering_metric</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span><span class="n">nearest_neighbors</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;leiden&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub_cluster</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">r_leiden_clustering</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">leiden_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span><span class="n">nearest_neighbors</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="n">n_pcs</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">)</span> <span class="c1"># Create lamda function </span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r_leiden_clustering</span><span class="p">,</span> <span class="n">pheno</span><span class="p">))</span> <span class="c1"># Apply function </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="n">leiden_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">nearest_neighbors</span><span class="o">=</span><span class="n">nearest_neighbors</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="n">n_pcs</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;parc&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub_cluster</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">r_parc_clustering</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">parc_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span><span class="n">parc_too_big_factor</span><span class="o">=</span><span class="n">parc_too_big_factor</span><span class="p">,</span><span class="n">parc_small_pop</span><span class="o">=</span><span class="n">parc_small_pop</span><span class="p">)</span> <span class="c1"># Create lamda function </span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">r_parc_clustering</span><span class="p">,</span> <span class="n">pheno</span><span class="p">))</span> <span class="c1"># Apply function </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_cluster_labels</span> <span class="o">=</span> <span class="n">parc_clustering</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">bdata</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span><span class="n">parc_too_big_factor</span><span class="o">=</span><span class="n">parc_too_big_factor</span><span class="p">,</span><span class="n">parc_small_pop</span><span class="o">=</span><span class="n">parc_small_pop</span><span class="p">)</span>
+
+
+    <span class="c1"># Merge all the labels into one and add to adata</span>
+    <span class="k">if</span> <span class="n">sub_cluster</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_cluster_labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">all_cluster_labels</span>
+
+    <span class="c1"># Merge with all cells</span>
+    <span class="c1">#sub_clusters = pd.DataFrame(bdata.obs[sub_cluster_column]).merge(sub_clusters, how=&#39;outer&#39;, left_index=True, right_index=True)</span>
+    <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bdata</span><span class="o">.</span><span class="n">obs</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sub_clusters</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1"># Transfer labels</span>
+    <span class="k">if</span> <span class="n">collapse_labels</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">sub_cluster</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sub_clusters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">sub_clusters</span><span class="p">[</span><span class="n">sub_cluster_column</span><span class="p">]))</span>
+
+
+    <span class="c1"># Get only the required column</span>
+    <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">sub_clusters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># re index the rows</span>
+    <span class="n">sub_clusters</span> <span class="o">=</span> <span class="n">sub_clusters</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="c1"># Append to adata</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub_clusters</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub_clusters</span>
+
+    <span class="c1"># Save data if requested</span>
+    <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="n">imid</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>    
+        <span class="c1"># Return data</span>
+        <span class="k">return</span> <span class="n">adata</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+  
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://twitter.com/ajitjohnson_n" target="_blank" rel="noopener" title="Twitter" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      
+    
+  </body>
+</html>
